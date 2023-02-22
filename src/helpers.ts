@@ -30,7 +30,7 @@ export function getCheckoutUrlBasedOnEnv(env: ENV) {
       return "https://localhost:3000";
     case "TEST":
     case "SANDBOX":
-      return "https://checkout.sandbox.almapay.com";
+      return "https://checkout.sandbox.getalma.eu";
     case "STAGING":
     case "DEV":
       return "https://checkout.staging.almapay.com";
@@ -58,10 +58,12 @@ function getAlmaAPIUrlBasedOnEnv(env: ENV) {
   }
 }
 
-export function fetchReturnUrl(paymentId: string, env: ENV) {
+export function fetchReturnUrls(paymentId: string, env: ENV) {
   return fetch(getAlmaAPIUrlBasedOnEnv(env) + "/v1/payments/" + paymentId)
     .then((response) => response.json())
-    .then((data) => data.return_url);
+    .then((data) => {
+      return { success: data.return_url, failure: data.failure_return_url };
+    });
 }
 
 export function getCheckoutUrl(paymentId: string, env: ENV, url: string) {

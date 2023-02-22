@@ -31,9 +31,9 @@ Values :
 
 This function will be called when a payment has been **successfully** made. You can handle the logic that you want to do after the payment. If you don't add this option, the return_url specified during the creation of the payment will be used to redirect the customer.
 
-<!-- #### `onPaymentRejected`: function, optional
+#### `onPaymentRejected`: function, optional
 
-This function will be called when a payment has been rejected. You can handle the logic that you want to do for this scenario. -->
+This function will be called when a payment has been rejected. You can handle the logic that you want to do for this scenario.
 
 #### `onModalClosed`: function, optional
 
@@ -45,6 +45,7 @@ const inPage = Alma.InPage.initialize("paymentID", {
   onPaymentSucceeded: () => {
     // handle logic
   },
+  // onPaymentRejected: () => {}
   // onModalClosed: () => {}
 });
 ```

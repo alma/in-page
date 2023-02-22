@@ -32,14 +32,14 @@ export const style = `
   height: 100vh;
   position: absolute;
   bottom: 0px;
-  padding: 50px 10px 10px;
+  padding-top: 48px;
   border-radius: 0;
 }
 
 #${MODAL_ID_PREFIX}-close {
   position: absolute;
-  right: 15px;
-  top: 15px;
+  right: 32px;
+  top: 32px;
   cursor: pointer;
 }
 
@@ -52,8 +52,8 @@ export const style = `
 
 #${MODAL_ID_PREFIX}-logo {
   position: absolute;
-  left: 15px;
-  top: 15px;
+  left: 32px;
+  top: 32px;
 }
 
 #${MODAL_ID_PREFIX}-iframe {
@@ -65,8 +65,16 @@ export const style = `
 @media (min-width: 768px) {
   #${MODAL_ID_PREFIX}-body {
     position: relative;
-    width: 80vw;
+    max-width: 600px;
     height: 80vh;
     border-radius: 10px;
+    padding-bottom: 10px;
   }
-}`;
+}
+
+@media (max-height: 700px) {
+  #${MODAL_ID_PREFIX}-body {
+    height: 90vh;
+  }
+}
+`;
