@@ -31,9 +31,9 @@ Values :
 
 This function will be called when a payment has been **successfully** made. You can handle the logic that you want to do after the payment. If you don't add this option, the return_url specified during the creation of the payment will be used to redirect the customer.
 
-<!-- #### `onPaymentRejected`: function, optional
+#### `onPaymentRejected`: function, optional
 
-This function will be called when a payment has been rejected. You can handle the logic that you want to do for this scenario. -->
+This function will be called when a payment has been rejected. You can handle the logic that you want to do for this scenario.
 
 #### `onModalClosed`: function, optional
 
@@ -45,6 +45,7 @@ const inPage = Alma.InPage.initialize("paymentID", {
   onPaymentSucceeded: () => {
     // handle logic
   },
+  // onPaymentRejected: () => {}
   // onModalClosed: () => {}
 });
 ```
@@ -59,6 +60,16 @@ This method will mount the inPage, inside the DOM element that you specify, **th
 
 ```js
 inPage.mount("#alma-inpage");
+```
+
+By default, the iframe will take 100% of the width of its container and 500px of height. There will be no border, but you can configure those 3 properties like this :
+
+```js
+inPage.mount("#alma-inpage", {
+  width: "80%",
+  height: "100px",
+  border: "1px solid red",
+});
 ```
 
 ## startPayment

@@ -54,7 +54,8 @@ export namespace InPage {
     });
 
     return {
-      mount: (selector: string) => mount(store, selector),
+      mount: (selector: string, iframeOptions?: Record<string, string>) =>
+        mount(store, selector, iframeOptions),
       startPayment: () => startPayment(store),
       unmount: () => unmount(store, unsubscribe),
     };

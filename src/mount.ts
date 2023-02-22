@@ -2,7 +2,11 @@ import { URLS } from "./constants";
 import { elementNotFound, getCheckoutUrl, getElement } from "./helpers";
 import { Store } from "./store";
 
-export function mount(store: Store, selector: string) {
+export function mount(
+  store: Store,
+  selector: string,
+  iframeOptions?: Record<string, string>
+) {
   if (!selector) {
     elementNotFound();
   }
@@ -18,10 +22,14 @@ export function mount(store: Store, selector: string) {
     URLS.embedded
   );
 
-  injectIframe(selector, url);
+  injectIframe(selector, url, iframeOptions);
 }
 
-function injectIframe(selector: string, url: string) {
+function injectIframe(
+  selector: string,
+  url: string,
+  iframeOptions?: Record<string, string>
+) {
   const element = getElement(selector);
   if (element && element?.childNodes.length > 0) {
     throw new Error(
@@ -31,9 +39,8 @@ function injectIframe(selector: string, url: string) {
   const iframe = document.createElement("iframe");
   iframe.src = url;
 
-  // TODO Pass options to the iframe via the API
-  iframe.style.width = "100%";
-  iframe.style.height = "500px";
-  iframe.style.border = "none";
+  iframe.style.width = iframeOptions?.width ?? "100%";
+  iframe.style.height = iframeOptions?.height ?? "500px";
+  iframe.style.border = iframeOptions?.border ?? "none";
   element?.appendChild(iframe);
 }
