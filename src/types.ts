@@ -10,7 +10,7 @@ export type ENV =
 export type InitializeOptions = {
   environment?: ENV;
   onPaymentSucceeded?: () => void;
-  onPaymentRejected?: (error: Error) => void;
+  onPaymentRejected?: () => void;
   onModalClosed?: () => void;
 };
 
@@ -20,6 +20,7 @@ export type MessageType =
   | "user_wants_to_pay"
   | "can_open_modal"
   | "payment_succeeded"
+  | "payment_rejected"
   | "trigger_success_callback";
 
 export type Message = {

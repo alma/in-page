@@ -1,7 +1,7 @@
 import { createStore } from "./store";
 import { InitializeOptions } from "./types";
 
-import { fetchReturnUrl } from "./helpers";
+import { fetchReturnUrls } from "./helpers";
 import { startListener } from "./messages/listener";
 import { removeModal, removeModalCloseElement, showModal } from "./Modal/modal";
 import { mount } from "./mount";
@@ -20,11 +20,17 @@ export namespace InPage {
     options: InitializeOptions = {}
   ) {
     const store = createStore(paymentId, options.environment);
-    let returnUrl: string | null = null;
+    const urls = {
+      success: null,
+      failure: null,
+    };
 
-    fetchReturnUrl(store.getPaymentId(), store.getEnvironment()).then((url) => {
-      returnUrl = url;
-    });
+    fetchReturnUrls(store.getPaymentId(), store.getEnvironment()).then(
+      (returnUrls) => {
+        urls.success = returnUrls.success;
+        urls.failure = returnUrls.failure;
+      }
+    );
 
     const { onInPageStatusChanged, unsubscribe } = startListener(
       store.getPaymentId(),
@@ -48,8 +54,18 @@ export namespace InPage {
 
       if (options.onPaymentSucceeded) {
         options.onPaymentSucceeded();
-      } else if (returnUrl) {
-        window.location.assign(returnUrl);
+      } else if (urls.success) {
+        window.location.assign(urls.success);
+      }
+    });
+
+    onInPageStatusChanged("payment_rejected", () => {
+      removeModal(false);
+
+      if (options.onPaymentRejected) {
+        options.onPaymentRejected();
+      } else if (urls.failure) {
+        window.location.assign(urls.failure);
       }
     });
 
