@@ -21,7 +21,8 @@ export type MessageType =
   | "can_open_modal"
   | "payment_succeeded"
   | "payment_rejected"
-  | "trigger_success_callback";
+  | "trigger_success_callback"
+  | "trigger_reject_callback";
 
 export type Message = {
   type: MessageType;

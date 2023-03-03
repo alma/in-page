@@ -45,9 +45,8 @@ export namespace InPage {
       showModal(store.getPaymentId(), store.getEnvironment());
     });
 
-    onInPageStatusChanged("payment_succeeded", () => {
-      removeModalCloseElement();
-    });
+    onInPageStatusChanged("payment_succeeded", removeModalCloseElement);
+    onInPageStatusChanged("payment_rejected", removeModalCloseElement);
 
     onInPageStatusChanged("trigger_success_callback", () => {
       removeModal(false);
@@ -59,7 +58,7 @@ export namespace InPage {
       }
     });
 
-    onInPageStatusChanged("payment_rejected", () => {
+    onInPageStatusChanged("trigger_reject_callback", () => {
       removeModal(false);
 
       if (options.onPaymentRejected) {
