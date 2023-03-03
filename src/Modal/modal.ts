@@ -5,7 +5,11 @@ import { MODAL_ID_PREFIX, URLS } from "../constants";
 import { ENV } from "../types";
 import { getCheckoutUrl } from "../helpers";
 
-export function showModal(paymentId: string, env: ENV) {
+export function showModal(
+  paymentId: string,
+  env: ENV,
+  userCloseModalCallback?: () => void
+) {
   // Just a check to avoid creating multiple modals
   if (document.getElementById(`${MODAL_ID_PREFIX}-wrapper`)) {
     removeModal();
@@ -16,7 +20,7 @@ export function showModal(paymentId: string, env: ENV) {
   const modalContainer = createModalContainerElement();
   const modalOverlay = createModalOverlayElement();
   const modalBody = createModalBodyElement();
-  const modalClose = createModalCloseElement();
+  const modalClose = createModalCloseElement(userCloseModalCallback);
   const modalLogo = createModalLogoElement();
   const iframe = createIframeElement(paymentId, env);
 
@@ -29,7 +33,10 @@ export function showModal(paymentId: string, env: ENV) {
   modalBody.appendChild(iframe);
 }
 
-export function removeModal(showConfirmation = true) {
+export function removeModal(
+  showConfirmation = true,
+  userCloseModalCallback?: () => void
+) {
   const modal = document.getElementById(`${MODAL_ID_PREFIX}-wrapper`);
   if (modal) {
     if (
@@ -37,6 +44,9 @@ export function removeModal(showConfirmation = true) {
       confirm("Are you sure you want to leave the payment page ?")
     ) {
       modal.remove();
+      if (userCloseModalCallback) {
+        userCloseModalCallback();
+      }
     }
   }
 }
@@ -84,14 +94,14 @@ function createIframeElement(paymentId: string, env: ENV) {
   return element;
 }
 
-function createModalCloseElement() {
+function createModalCloseElement(userCloseModalCallback?: () => void) {
   const element = document.createElement("img");
   element.id = `${MODAL_ID_PREFIX}-close`;
   element.title = "Close the alma modal (you'll lose your data)";
-  element.onclick = removeModal.bind(null, true);
+  element.onclick = () => removeModal(true, userCloseModalCallback);
   element.onkeyup = (event) => {
     if (event.key === "Enter") {
-      removeModal();
+      removeModal(true, userCloseModalCallback);
     }
   };
 

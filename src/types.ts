@@ -11,7 +11,7 @@ export type InitializeOptions = {
   environment?: ENV;
   onPaymentSucceeded?: () => void;
   onPaymentRejected?: () => void;
-  onModalClosed?: () => void;
+  onUserCloseModal?: () => void;
 };
 
 // Must be kept up to date with `Checkout/src/InPage/types.ts`
