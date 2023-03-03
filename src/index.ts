@@ -42,12 +42,15 @@ export namespace InPage {
     });
 
     onInPageStatusChanged("can_open_modal", () => {
-      showModal(store.getPaymentId(), store.getEnvironment());
+      showModal(
+        store.getPaymentId(),
+        store.getEnvironment(),
+        options.onUserCloseModal
+      );
     });
 
     onInPageStatusChanged("payment_succeeded", removeModalCloseElement);
     onInPageStatusChanged("payment_rejected", removeModalCloseElement);
-
     onInPageStatusChanged("trigger_success_callback", () => {
       removeModal(false);
 

@@ -35,9 +35,9 @@ This function will be called when a payment has been **successfully** made. You 
 
 This function will be called when a payment has been rejected. You can handle the logic that you want to do for this scenario.
 
-#### `onModalClosed`: function, optional
+#### `onUserCloseModal`: function, optional
 
-This function will be called when the customer closes the modal. You can handle the logic that you want to do for this scenario. If you don't add this option, the modal will be closed and the customer will stay on the page.
+This function will be called when the user closes the modal. You can handle the logic that you want to do for this scenario. If you don't add this option, the modal will be closed and the customer will stay on the page.
 
 ```js
 const inPage = Alma.InPage.initialize("paymentID", {
@@ -46,7 +46,7 @@ const inPage = Alma.InPage.initialize("paymentID", {
     // handle logic
   },
   // onPaymentRejected: () => {}
-  // onModalClosed: () => {}
+  // onUserCloseModal: () => {}
 });
 ```
 
