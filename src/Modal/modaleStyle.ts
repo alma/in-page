@@ -33,13 +33,13 @@ export const style = `
   position: absolute;
   bottom: 0px;
   padding-top: 48px;
-  border-radius: 0;
+  border-radius: 10px;
 }
 
 #${MODAL_ID_PREFIX}-close {
   position: absolute;
-  right: 32px;
-  top: 32px;
+  right: 24px;
+  top: 16px;
   cursor: pointer;
 }
 
@@ -52,8 +52,8 @@ export const style = `
 
 #${MODAL_ID_PREFIX}-logo {
   position: absolute;
-  left: 32px;
-  top: 32px;
+  left: 24px;
+  top: 16px;
 }
 
 #${MODAL_ID_PREFIX}-iframe {
@@ -68,7 +68,6 @@ export const style = `
     max-width: 600px;
     height: 80vh;
     border-radius: 10px;
-    padding-bottom: 10px;
   }
 }
 

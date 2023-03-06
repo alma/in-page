@@ -72,7 +72,7 @@ export function getCheckoutUrl(paymentId: string, env: ENV, url: string) {
 
 /**
  * This is used to send a hash instead of a paymentId through `postMessage for InPage`
- * * /!\ If you update this method, do not forget to update the one in the checkout project
+ * ! If you update this method, do not forget to update the one in the checkout project
  */
 export function hashPaymentId(paymentId: string) {
   return window.crypto.subtle
