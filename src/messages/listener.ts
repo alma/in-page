@@ -1,4 +1,4 @@
-import { getCheckoutUrlBasedOnEnv, hashPaymentId } from "../helpers";
+import { getCheckoutUrlBasedOnEnv } from "../helpers";
 import { ENV, MessageType } from "../types";
 
 type Subscriber = {
@@ -6,20 +6,16 @@ type Subscriber = {
   callback: () => void;
 };
 
-export function startListener(paymentId: string, env: ENV) {
+export function startListener(env: ENV) {
   const inPageStatusSubscribers: Subscriber[] = [];
 
-  const listener = async (event: MessageEvent<any>) => {
-    // Handle messages only if:
-    // - payment id hash is matching curent one.
-    // - origin is correct
-    const hashedPaymentID = await hashPaymentId(paymentId);
-
+  const listener = (event: MessageEvent<any>) => {
+    // Handle messages only if origin is correct.
     if (event.origin !== getCheckoutUrlBasedOnEnv(env)) {
       return false;
     }
 
-    if (event.data.hash !== hashedPaymentID) {
+    if (event.data.from !== "checkout") {
       return false;
     }
 

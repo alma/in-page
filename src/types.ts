@@ -25,7 +25,7 @@ export type MessageType =
   | "trigger_reject_callback";
 
 export type Message = {
+  from: "checkout" | "in-page";
   type: MessageType;
-  hash: string;
   payload?: string;
 };
