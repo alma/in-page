@@ -33,7 +33,6 @@ export namespace InPage {
     );
 
     const { onInPageStatusChanged, unsubscribe } = startListener(
-      store.getPaymentId(),
       store.getEnvironment()
     );
 

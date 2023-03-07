@@ -1,12 +1,10 @@
-import { hashPaymentId } from "./helpers";
 import { sendMessage } from "./messages/send";
 import { Store } from "./store";
 
-export async function startPayment(store: Store) {
-  const hash = await hashPaymentId(store.getPaymentId());
+export function startPayment(store: Store) {
   return sendMessage(
     store,
-    { type: "user_wants_to_pay", hash },
+    { from: "in-page", type: "user_wants_to_pay" },
     store.getEnvironment()
   );
 }
