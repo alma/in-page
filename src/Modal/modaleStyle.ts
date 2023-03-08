@@ -8,11 +8,11 @@ const ALMA_COLORS = {
 
 export const style = `
 #${MODAL_ID_PREFIX}-element {
-  width: 100vw;
-  height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
+  bottom: 0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,10 +28,9 @@ export const style = `
 
 #${MODAL_ID_PREFIX}-body {
   background: ${ALMA_COLORS.white};
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   position: absolute;
-  bottom: 0px;
   padding-top: 48px;
   border-radius: 10px;
 }
@@ -62,6 +61,13 @@ export const style = `
   border: 0;
 }
 
+.alma-fixed-body { 
+  position: fixed;
+  width: 100%;
+  overflow: auto;
+  height: 100%;
+}
+
 @media (min-width: 768px) {
   #${MODAL_ID_PREFIX}-body {
     position: relative;
@@ -71,7 +77,7 @@ export const style = `
   }
 }
 
-@media (max-height: 700px) {
+@media (min-width: 768px) and (max-height: 700px) {
   #${MODAL_ID_PREFIX}-body {
     height: 90vh;
   }
