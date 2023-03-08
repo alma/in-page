@@ -69,18 +69,3 @@ export function fetchReturnUrls(paymentId: string, env: ENV) {
 export function getCheckoutUrl(paymentId: string, env: ENV, url: string) {
   return getCheckoutUrlBasedOnEnv(env) + "/" + paymentId + url;
 }
-
-/**
- * This is used to send a hash instead of a paymentId through `postMessage for InPage`
- * ! If you update this method, do not forget to update the one in the checkout project
- */
-export function hashPaymentId(paymentId: string) {
-  return window.crypto.subtle
-    .digest("SHA-256", new TextEncoder().encode(paymentId))
-    .then((hash) => {
-      const hex = Array.from(new Uint8Array(hash))
-        .map((b) => b.toString(16).padStart(2, "0"))
-        .join("");
-      return hex;
-    });
-}

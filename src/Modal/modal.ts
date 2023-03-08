@@ -5,6 +5,8 @@ import { MODAL_ID_PREFIX, URLS } from "../constants";
 import { ENV } from "../types";
 import { getCheckoutUrl } from "../helpers";
 
+let previousScrollPosition = 0;
+
 export function showModal(
   paymentId: string,
   env: ENV,
@@ -15,6 +17,12 @@ export function showModal(
     removeModal();
     return;
   }
+
+  // This is a try to improve smoothness of scrolling inside the modal.
+  // https://www.jayfreestone.com/writing/locking-body-scroll-ios/
+  previousScrollPosition = window.scrollY;
+  document.body.classList.add("alma-fixed-body");
+  document.body.scroll(0, previousScrollPosition);
 
   const wrapper = createModalWrapperElement();
   const modalContainer = createModalContainerElement();
@@ -31,6 +39,8 @@ export function showModal(
   modalBody.appendChild(modalClose);
   modalBody.appendChild(modalLogo);
   modalBody.appendChild(iframe);
+
+  iframe.focus(); // 👈 Also related to scrolling in the modal.
 }
 
 export function removeModal(
@@ -43,6 +53,9 @@ export function removeModal(
       !showConfirmation ||
       confirm("Are you sure you want to leave the payment page ?")
     ) {
+      document.body.classList.remove("alma-fixed-body");
+      document.body.scroll(0, previousScrollPosition);
+
       modal.remove();
       if (userCloseModalCallback) {
         userCloseModalCallback();
