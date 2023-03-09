@@ -7,6 +7,7 @@ import { removeModal, removeModalCloseElement, showModal } from "./Modal/modal";
 import { mount } from "./mount";
 import { startPayment } from "./startPayment";
 import { unmount } from "./unmount";
+import { sendWaitingMessages } from "./messages/send";
 
 export namespace InPage {
   /**
@@ -38,6 +39,7 @@ export namespace InPage {
 
     onInPageStatusChanged("embedded_loaded", () => {
       store.setIsCheckoutLoaded(true);
+      sendWaitingMessages(store);
     });
 
     onInPageStatusChanged("can_open_modal", () => {

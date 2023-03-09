@@ -74,6 +74,7 @@ export const style = `
     max-width: 600px;
     height: 80vh;
     border-radius: 10px;
+    padding-bottom: 10px;
   }
 }
 
