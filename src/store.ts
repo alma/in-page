@@ -19,7 +19,7 @@ export const createStore: (paymentId: string, environment?: ENV) => Store = (
 ) => {
   let embeddedSelector: Selector = null;
   let isCheckoutLoaded: boolean = false;
-  let messagesToSendLater: Message[] = [];
+  let messagesToSendLater: Set<Message> = new Set(); // Use set to deduplicate the startPayment action.
 
   const setEmbeddedSelector = (selector: Selector) => {
     embeddedSelector = selector;
@@ -46,12 +46,12 @@ export const createStore: (paymentId: string, environment?: ENV) => Store = (
   };
 
   const addMessageToSendLater = (message: Message) => {
-    messagesToSendLater.push(message);
+    messagesToSendLater.add(message);
   };
 
   const getAndResetMessagesToSendLater = () => {
-    const previousMessages = messagesToSendLater;
-    messagesToSendLater = [];
+    const previousMessages = Array.from(messagesToSendLater);
+    messagesToSendLater = new Set();
 
     return previousMessages;
   };
