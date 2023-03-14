@@ -9,6 +9,7 @@ const ALMA_COLORS = {
 export const style = `
 #${MODAL_ID_PREFIX}-element {
   position: fixed;
+  z-index: 1337;
   top: 0;
   left: 0;
   bottom: 0;
