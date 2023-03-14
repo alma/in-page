@@ -1,4 +1,4 @@
-import { ENV } from "./types";
+import { ENV, Message } from "./types";
 
 type Selector = string | null;
 
@@ -9,6 +9,8 @@ export type Store = {
   setIsCheckoutLoaded: (status: boolean) => void;
   getEnvironment: () => ENV;
   getPaymentId: () => string;
+  addMessageToSendLater: (message: Message) => void;
+  getAndResetMessagesToSendLater: () => Message[];
 };
 
 export const createStore: (paymentId: string, environment?: ENV) => Store = (
@@ -17,6 +19,7 @@ export const createStore: (paymentId: string, environment?: ENV) => Store = (
 ) => {
   let embeddedSelector: Selector = null;
   let isCheckoutLoaded: boolean = false;
+  let messagesToSendLater: Set<Message> = new Set(); // Use set to deduplicate the startPayment action.
 
   const setEmbeddedSelector = (selector: Selector) => {
     embeddedSelector = selector;
@@ -42,6 +45,17 @@ export const createStore: (paymentId: string, environment?: ENV) => Store = (
     return paymentId;
   };
 
+  const addMessageToSendLater = (message: Message) => {
+    messagesToSendLater.add(message);
+  };
+
+  const getAndResetMessagesToSendLater = () => {
+    const previousMessages = Array.from(messagesToSendLater);
+    messagesToSendLater = new Set();
+
+    return previousMessages;
+  };
+
   return {
     setEmbeddedSelector,
     getEmbeddedSelector,
@@ -49,5 +63,7 @@ export const createStore: (paymentId: string, environment?: ENV) => Store = (
     getIsCheckoutLoaded,
     getEnvironment,
     getPaymentId,
+    addMessageToSendLater,
+    getAndResetMessagesToSendLater,
   };
 };

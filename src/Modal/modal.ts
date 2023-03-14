@@ -14,7 +14,6 @@ export function showModal(
 ) {
   // Just a check to avoid creating multiple modals
   if (document.getElementById(`${MODAL_ID_PREFIX}-wrapper`)) {
-    removeModal();
     return;
   }
 

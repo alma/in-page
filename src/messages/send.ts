@@ -2,9 +2,9 @@ import { getCheckoutUrlBasedOnEnv, getElement } from "../helpers";
 import { Store } from "../store";
 import { ENV, Message } from "../types";
 
-export function sendMessage(store: Store, message: Message, env: ENV) {
+export function sendMessage(store: Store, message: Message) {
   if (store.getIsCheckoutLoaded() === false) {
-    console.error("Can not send message yet, Checkout is not loaded.");
+    store.addMessageToSendLater(message);
     return false;
   }
 
@@ -16,7 +16,16 @@ export function sendMessage(store: Store, message: Message, env: ENV) {
 
   const element = getElement(selector);
   const iframe = element?.firstChild as HTMLIFrameElement; // We get the iframe inside
+  const targetOrigin = getCheckoutUrlBasedOnEnv(store.getEnvironment());
 
-  iframe.contentWindow?.postMessage(message, getCheckoutUrlBasedOnEnv(env));
+  iframe.contentWindow?.postMessage(message, targetOrigin);
   return true;
+}
+
+export function sendWaitingMessages(store: Store) {
+  const previousMessages = store.getAndResetMessagesToSendLater();
+
+  previousMessages.forEach((message) => {
+    sendMessage(store, message);
+  });
 }
